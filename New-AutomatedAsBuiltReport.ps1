@@ -4,6 +4,7 @@
 .DESCRIPTION
     This script is used to run the community project "AsBuiltReport" in an autmated way.
     The script askes the user for the vCenter and corresponding credentials and the creates a new AsBuilt report based on predefined configurations (JSON).
+    The predefined configurations are stored in the "Config" directory under the current directory.
 .INPUTS
     $VIServer:      Name/IP address of the vCenter Server.
     $VICredentials: Credentials for $VIServer.
@@ -39,7 +40,7 @@ if (!(Get-Module -Name AsBuiltReport -ListAvailable)) {
     Update-Module -Name AsBuiltReport 
 }
 
-#Asked user for input (vCenter Server and credentials)
+#Ask user for input (vCenter Server and credentials)
 $VIServer = Read-Host -Prompt "vCenter Server to connect to"
 $VICredential = Get-Credential -Message "Please enter the credentials for $VIServer"
 
