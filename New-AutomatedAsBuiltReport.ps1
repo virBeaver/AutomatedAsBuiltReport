@@ -20,7 +20,7 @@
 
 #Set variables
 $OutputPath = ".\"
-$AsBuiltConfigPath = ".\Config\AsBuiltReport.Config.json"
+$AsBuiltConfigPath = ".\Config\AsBuiltConfig.json"
 
 
 #Trust repository "PSGallery"
