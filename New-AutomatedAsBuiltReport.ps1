@@ -18,7 +18,7 @@
 #>
 
 #Set Variables
-$OutputPath = ".\Output\"
+$OutputPath = ".\"
 $AsBuiltConfigPath = ".\Config\AsBuiltReport.Config.json"
 
 
@@ -37,11 +37,6 @@ if (!(Get-Module -Name AsBuiltReport -ListAvailable)) {
     Install-Module -Name AsBuiltReport -Force
 } else {
     Update-Module -Name AsBuiltReport 
-}
-
-#Check if $OutPutPath exists. If not create it
-if (!(Test-Path -Path $OutputPath)) {
-    New-Item -ItemType directory -Path $OutputPath
 }
 
 $VIServer = Read-Host -Prompt "vCenter Server to connect to"
