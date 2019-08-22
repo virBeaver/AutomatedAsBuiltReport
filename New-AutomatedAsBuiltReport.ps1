@@ -2,7 +2,7 @@
 .SYNOPSIS
     New-AutomatedAsBuiltReport.ps1 - A script to run AsBuiltReport in an automated way.
 .DESCRIPTION
-    This script is used to run the community project "AsBuiltReport" in an autmated way.
+    This script is used to run the community project "AsBuiltReport" in an automated way.
     The script askes the user for the vCenter and corresponding credentials and the creates a new AsBuilt report based on predefined configurations (JSON).
     The predefined configurations are stored in the "Config" directory under the current directory.
 .INPUTS
@@ -27,23 +27,51 @@ $AsBuiltConfigPath = ".\Config\AsBuiltConfig.json"
 #Trust repository "PSGallery"
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
+#Check if NuGet is installed
+if (!(Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
+    Write-Host "NuGet not installed, installing NuGet now..." -ForegroundColor Yellow
+    Install-PackageProvider -Name NuGet -Force | Out-Null
+    Write-Host "NuGet not installed, installing NuGet now... done" -ForegroundColor Yellow 
+} else {
+    Write-Host "NuGet already installed... done" -ForegroundColor Yellow
+}
+
 #Check if VMware.PowerCLI is installed
 if (!(Get-Module -Name VMware.PowerCLI -ListAvailable)) {
+    Write-Host "VMware.PowerCLI not installed, installing VMware.PowerCLI now..." -ForegroundColor Yellow
     Install-Module -Name VMware.PowerCLI -Force
+    Write-Host "VMware.PowerCLI not installed, installing VMware.PowerCLI now... done" -ForegroundColor Yellow 
 } else {
+    Write-Host "VMware.PowerCLI already installed, updating VMware.PowerCLI now..." -ForegroundColor Yellow
     Update-Module -Name VMware.PowerCLI
+    Write-Host "VMware.PowerCLI already installed, updating VMware.PowerCLI now... done" -ForegroundColor Yellow
 }
 
 #Check if AsBuiltReport is installed
 if (!(Get-Module -Name AsBuiltReport -ListAvailable)) {
+    Write-Host "AsBuiltReport not installed, installing AsBuiltReport now..." -ForegroundColor Yellow
     Install-Module -Name AsBuiltReport -Force
+    Write-Host "AsBuiltReport not installed, installing AsBuiltReport now... done" -ForegroundColor Yellow
 } else {
+    Write-Host "AsBuiltReport already installed, updating AsBuiltReport now..." -ForegroundColor Yellow
     Update-Module -Name AsBuiltReport 
+    Write-Host "AsBuiltReport already installed, updating AsBuiltReport now... done" -ForegroundColor Yellow
 }
 
 #Ask user for input (vCenter Server and credentials)
-$VIServer = Read-Host -Prompt "vCenter Server to connect to"
+$VIServer = Read-Host "vCenter Server to connect to"
 $VICredential = Get-Credential -Message "Please enter the credentials for $VIServer"
 
-#Run AsBuiltReport with predefined configuration
-New-AsBuiltReport -Target $VIServer -Credential $VICredential -Format Word  -Report VMware.vSphere -EnableHealthCheck -OutputPath $OutputPath -AsBuiltConfigPath $AsBuiltConfigPath
+#Check if vCenter connection can be established
+Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false -Confirm:$false
+Connect-VIServer -Server $VIServer -Credential $VICredential -ErrorAction:SilentlyContinue
+if ($global:DefaultVIServers.count -eq 1 -and $global:DefaultVIServers[0].name -eq $VIServer) {
+    Disconnect-VIServer -Server $VIServer -Confirm:$false
+    #Run AsBuiltReport with predefined configuration
+    Write-Host "Connected to $VIServer, running AsBuiltReport now..." -ForegroundColor Yellow
+    New-AsBuiltReport -Target $VIServer -Credential $VICredential -Format Word  -Report VMware.vSphere -EnableHealthCheck -OutputPath $OutputPath -AsBuiltConfigPath $AsBuiltConfigPath
+    Write-Host "Connected to $VIServer, running AsBuiltReport now... done" -ForegroundColor Yellow
+} else {
+    Read-Host "Unable to connect to $VIServer with given credentials, press any key to return..."
+    Return
+}
