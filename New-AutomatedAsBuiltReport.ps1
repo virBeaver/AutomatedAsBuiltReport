@@ -23,10 +23,6 @@
 $OutputPath = ".\"
 $AsBuiltConfigPath = ".\Config\AsBuiltConfig.json"
 
-
-#Trust repository "PSGallery"
-Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-
 #Check if NuGet is installed
 Write-Host  "Check if NuGet is already installed..." -ForegroundColor Yellow
 if (!(Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
@@ -36,6 +32,9 @@ if (!(Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContin
 } else {
     Write-Host "NuGet already installed... done" -ForegroundColor Yellow
 }
+
+#Trust repository "PSGallery"
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 #Check if VMware.PowerCLI is installed
 Write-Host  "Check if VMware.PowerCLI is already installed..." -ForegroundColor Yellow
