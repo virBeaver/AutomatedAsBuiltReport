@@ -68,13 +68,14 @@ $VICredential = Get-Credential -Message "Please enter the credentials for $VISer
 #Check if vCenter connection can be established
 Write-Host "Check if connection to $VIServer can be established..." -ForegroundColor Yellow
 Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $true -Confirm:$false | Out-Null
-Connect-VIServer -Server $VIServer -Credential $VICredential -ErrorAction:SilentlyContinue 
+Connect-VIServer -Server $VIServer -Credential $VICredential -ErrorAction:SilentlyContinue | Out-Null
 if ($global:DefaultVIServers.count -eq 1 -and $global:DefaultVIServers[0].name -eq $VIServer) {
     Disconnect-VIServer -Server $VIServer -Confirm:$false
     #Run AsBuiltReport with predefined configuration
     Write-Host "Connected to $VIServer, running AsBuiltReport now..." -ForegroundColor Yellow
     New-AsBuiltReport -Target $VIServer -Credential $VICredential -Format Word  -Report VMware.vSphere -EnableHealthCheck -OutputPath $OutputPath -AsBuiltConfigPath $AsBuiltConfigPath
     Write-Host "Connected to $VIServer, running AsBuiltReport now... done" -ForegroundColor Yellow
+    Write-Host "New-AutomatedAsBuiltReport completed successfully..." -ForegroundColor Yellow
 } else {
     Read-Host "Unable to connect to $VIServer with given credentials, press any key to return..."
     Return
