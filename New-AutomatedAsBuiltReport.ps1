@@ -26,9 +26,9 @@ $AsBuiltConfigPath = ".\Config\AsBuiltConfig.json"
 #Check if NuGet is installed
 Write-Host  "Check if NuGet is already installed..." -ForegroundColor Yellow
 if (!(Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
-    Write-Host "NuGet not installed, installing NuGet now..." -ForegroundColor Yellow
+    Write-Host "NuGet not installed, installing NuGet now..." -ForegroundColor Yellow -NoNewline
     Install-PackageProvider -Name NuGet -Force | Out-Null
-    Write-Host "NuGet not installed, installing NuGet now... done" -ForegroundColor Yellow 
+    Write-Host "`rNuGet not installed, installing NuGet now... done" -ForegroundColor Yellow 
 } else {
     Write-Host "NuGet already installed... done" -ForegroundColor Yellow
 }
@@ -39,25 +39,25 @@ Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 #Check if VMware.PowerCLI is installed
 Write-Host  "Check if VMware.PowerCLI is already installed..." -ForegroundColor Yellow
 if (!(Get-Module -Name VMware.PowerCLI -ListAvailable)) {
-    Write-Host "VMware.PowerCLI not installed, installing VMware.PowerCLI now..." -ForegroundColor Yellow
+    Write-Host "VMware.PowerCLI not installed, installing VMware.PowerCLI now..." -ForegroundColor Yellow -NoNewline
     Install-Module -Name VMware.PowerCLI -Force
-    Write-Host "VMware.PowerCLI not installed, installing VMware.PowerCLI now... done" -ForegroundColor Yellow 
+    Write-Host "`rVMware.PowerCLI not installed, installing VMware.PowerCLI now... done" -ForegroundColor Yellow 
 } else {
-    Write-Host "VMware.PowerCLI already installed, updating VMware.PowerCLI now..." -ForegroundColor Yellow
+    Write-Host "VMware.PowerCLI already installed, updating VMware.PowerCLI now..." -ForegroundColor Yellow -NoNewline
     Update-Module -Name VMware.PowerCLI
-    Write-Host "VMware.PowerCLI already installed, updating VMware.PowerCLI now... done" -ForegroundColor Yellow
+    Write-Host "`rVMware.PowerCLI already installed, updating VMware.PowerCLI now... done" -ForegroundColor Yellow
 }
 
 #Check if AsBuiltReport is installed
 Write-Host  "Check if AsBuiltReport is already installed..." -ForegroundColor Yellow
 if (!(Get-Module -Name AsBuiltReport -ListAvailable)) {
-    Write-Host "AsBuiltReport not installed, installing AsBuiltReport now..." -ForegroundColor Yellow
+    Write-Host "AsBuiltReport not installed, installing AsBuiltReport now..." -ForegroundColor Yellow -NoNewline
     Install-Module -Name AsBuiltReport -Force
-    Write-Host "AsBuiltReport not installed, installing AsBuiltReport now... done" -ForegroundColor Yellow
+    Write-Host "`rAsBuiltReport not installed, installing AsBuiltReport now... done" -ForegroundColor Yellow
 } else {
-    Write-Host "AsBuiltReport already installed, updating AsBuiltReport now..." -ForegroundColor Yellow
+    Write-Host "AsBuiltReport already installed, updating AsBuiltReport now..." -ForegroundColor Yellow -NoNewline
     Update-Module -Name AsBuiltReport 
-    Write-Host "AsBuiltReport already installed, updating AsBuiltReport now... done" -ForegroundColor Yellow
+    Write-Host "`rAsBuiltReport already installed, updating AsBuiltReport now... done" -ForegroundColor Yellow
 }
 
 #Ask user for input (vCenter Server and credentials)
@@ -71,11 +71,11 @@ Connect-VIServer -Server $VIServer -Credential $VICredential -ErrorAction:Silent
 if ($global:DefaultVIServers.count -eq 1 -and $global:DefaultVIServers[0].name -eq $VIServer) {
     Disconnect-VIServer -Server $VIServer -Confirm:$false
     #Run AsBuiltReport with predefined configuration
-    Write-Host "Connected to $VIServer, running AsBuiltReport now..." -ForegroundColor Yellow
+    Write-Host "Connected to $VIServer, running AsBuiltReport now..." -ForegroundColor Yellow -NoNewline
     New-AsBuiltReport -Target $VIServer -Credential $VICredential -Format Word  -Report VMware.vSphere -EnableHealthCheck -OutputPath $OutputPath -AsBuiltConfigPath $AsBuiltConfigPath
-    Write-Host "Connected to $VIServer, running AsBuiltReport now... done" -ForegroundColor Yellow
+    Write-Host "`rConnected to $VIServer, running AsBuiltReport now... done" -ForegroundColor Yellow
     Write-Host "New-AutomatedAsBuiltReport completed successfully..." -ForegroundColor Yellow
 } else {
-    Read-Host "Unable to connect to $VIServer with given credentials, press any key to return..."
+    Read-Host "`rUnable to connect to $VIServer with given credentials, press any key to return..."
     Return
 }
