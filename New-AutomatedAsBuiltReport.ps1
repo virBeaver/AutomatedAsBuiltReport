@@ -30,7 +30,7 @@ if (!(Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContin
     Install-PackageProvider -Name NuGet -Force | Out-Null
     Write-Host "`rNuGet not installed, installing NuGet now... successful" -ForegroundColor Yellow 
 } else {
-    Write-Host "NuGet already installed... done" -ForegroundColor Yellow
+    Write-Host "NuGet already installed... successful" -ForegroundColor Yellow
 }
 
 #Trust repository "PSGallery"
@@ -76,6 +76,6 @@ if ($global:DefaultVIServers.count -eq 1 -and $global:DefaultVIServers[0].name -
     New-AsBuiltReport -Target $VIServer -Credential $VICredential -Format Word  -Report VMware.vSphere -EnableHealthCheck -OutputPath $OutputPath -AsBuiltConfigPath $AsBuiltConfigPath
     Write-Host "`rConnected to $VIServer, running AsBuiltReport now... successful" -ForegroundColor Yellow
 } else {
-    Read-Host "`rCheck if connection to $VIServer can be established... failed [Press any key to return]"
+    Read-Host "`rCheck if connection to $VIServer can be established... failed [Press ENTER to return]"
     Return
 }
