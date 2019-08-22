@@ -72,9 +72,9 @@ if ($global:DefaultVIServers.count -eq 1 -and $global:DefaultVIServers[0].name -
     Disconnect-VIServer -Server $VIServer -Confirm:$false
     Write-Host "`rCheck if connection to $VIServer can be established... successful" -ForegroundColor Yellow
     #Run AsBuiltReport with predefined configuration
-    Write-Host "Connected to $VIServer, running AsBuiltReport now..." -ForegroundColor Yellow
+    Write-Host "Running AsBuiltReport now..." -ForegroundColor Yellow
     New-AsBuiltReport -Target $VIServer -Credential $VICredential -Format Word  -Report VMware.vSphere -EnableHealthCheck -OutputPath $OutputPath -AsBuiltConfigPath $AsBuiltConfigPath
-    Write-Host "`rConnected to $VIServer, running AsBuiltReport now... successful" -ForegroundColor Yellow
+    Write-Host "`rRunning AsBuiltReport now... successful" -ForegroundColor Yellow
 } else {
     Read-Host "`rCheck if connection to $VIServer can be established... failed [Press ENTER to return]"
     Return
