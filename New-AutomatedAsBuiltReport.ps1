@@ -28,6 +28,7 @@ $AsBuiltConfigPath = ".\Config\AsBuiltConfig.json"
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 #Check if NuGet is installed
+Write-Host  "Check if NuGet is already installed..." -ForegroundColor Yellow
 if (!(Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
     Write-Host "NuGet not installed, installing NuGet now..." -ForegroundColor Yellow
     Install-PackageProvider -Name NuGet -Force | Out-Null
@@ -37,6 +38,7 @@ if (!(Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContin
 }
 
 #Check if VMware.PowerCLI is installed
+Write-Host  "Check if VMware.PowerCLI is already installed..." -ForegroundColor Yellow
 if (!(Get-Module -Name VMware.PowerCLI -ListAvailable)) {
     Write-Host "VMware.PowerCLI not installed, installing VMware.PowerCLI now..." -ForegroundColor Yellow
     Install-Module -Name VMware.PowerCLI -Force
@@ -48,6 +50,7 @@ if (!(Get-Module -Name VMware.PowerCLI -ListAvailable)) {
 }
 
 #Check if AsBuiltReport is installed
+Write-Host  "Check if AsBuiltReport is already installed..." -ForegroundColor Yellow
 if (!(Get-Module -Name AsBuiltReport -ListAvailable)) {
     Write-Host "AsBuiltReport not installed, installing AsBuiltReport now..." -ForegroundColor Yellow
     Install-Module -Name AsBuiltReport -Force
@@ -63,8 +66,9 @@ $VIServer = Read-Host "vCenter Server to connect to"
 $VICredential = Get-Credential -Message "Please enter the credentials for $VIServer"
 
 #Check if vCenter connection can be established
-Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false -Confirm:$false
-Connect-VIServer -Server $VIServer -Credential $VICredential -ErrorAction:SilentlyContinue
+Write-Host "Check if connection to $VIServer can be established..." -ForegroundColor Yellow
+Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $true -Confirm:$false | Out-Null
+Connect-VIServer -Server $VIServer -Credential $VICredential -ErrorAction:SilentlyContinue 
 if ($global:DefaultVIServers.count -eq 1 -and $global:DefaultVIServers[0].name -eq $VIServer) {
     Disconnect-VIServer -Server $VIServer -Confirm:$false
     #Run AsBuiltReport with predefined configuration
