@@ -19,6 +19,12 @@
     Year:       2019
 #>
 
+#Allow execution of unsigned scripts
+Set-ExecutionPolicy Unrestricted
+
+#Ignore invalid certificates while connecting to vCenter
+Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
+
 #Set variables
 $OutputPath = ".\"
 $AsBuiltConfigPath = ".\Config\AsBuiltConfig.json"
