@@ -8,7 +8,6 @@
 .INPUTS
     $VIServer:      Name/IP address of the vCenter Server.
     $VICredentials: Credentials for $VIServer.
-    $OutPutPath:    Path to create the AsBuiltReport in.
 .OUTPUTS
     New AsBuiltReport as Microsoft Word file.
 .NOTES
@@ -25,7 +24,7 @@ Set-ExecutionPolicy Unrestricted
 #Ignore invalid certificates while connecting to vCenter
 Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
 
-#Set variables
+#Set predefined variables
 $OutputPath = ".\"
 $AsBuiltConfigPath = ".\Config\AsBuiltConfig.json"
 
