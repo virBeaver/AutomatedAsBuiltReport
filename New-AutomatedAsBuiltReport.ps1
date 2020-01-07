@@ -3,7 +3,7 @@
     New-AutomatedAsBuiltReport.ps1 - A script to run AsBuiltReport in an automated way.
 .DESCRIPTION
     This script is used to run the community project "AsBuiltReport" in an automated way.
-    The script askes the user for the vCenter and corresponding credentials and the creates a new AsBuilt report based on predefined configurations (JSON).
+    The script askes the user for the vCenter and corresponding credentials and then creates a new AsBuiltReport report based on predefined configurations (JSON).
     The predefined configurations are stored in the "Config" directory under the current directory.
 .INPUTS
     $VIServer:      Name/IP address of the vCenter Server.
