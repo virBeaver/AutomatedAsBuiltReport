@@ -19,7 +19,7 @@
 #>
 
 #Allow execution of unsigned scripts
-Set-ExecutionPolicy Unrestricted
+Set-ExecutionPolicy Unrestricted -Force
 
 #Ignore invalid certificates while connecting to vCenter
 Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
