@@ -15,7 +15,7 @@
     E-Mail:     tim.maier@icloud.com
     Blog:       https://virbeaver.com
     Twitter:    @virBeaver
-    Year:       2019
+    Year:       2020
 #>
 
 #Allow execution of unsigned scripts
