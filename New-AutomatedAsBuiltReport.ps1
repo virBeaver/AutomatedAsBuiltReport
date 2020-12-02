@@ -11,8 +11,8 @@
 .OUTPUTS
     New AsBuiltReport as Microsoft Word file.
 .NOTES
-    Author:     Tim Maier
-    E-Mail:     tim.maier@icloud.com
+    Author:     Tim Neukirchen
+    E-Mail:     neukirchentim@gmail.com
     Blog:       https://virbeaver.com
     Twitter:    @virBeaver
     Year:       2020
