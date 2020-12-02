@@ -3,23 +3,28 @@
     New-AutomatedAsBuiltReport.ps1 - A script to run AsBuiltReport in an automated way.
 .DESCRIPTION
     This script is used to run the community project "AsBuiltReport" in an automated way.
-    The script askes the user for the vCenter and corresponding credentials and the creates a new AsBuilt report based on predefined configurations (JSON).
+    The script askes the user for the vCenter and corresponding credentials and then creates a new AsBuiltReport report based on predefined configurations (JSON).
     The predefined configurations are stored in the "Config" directory under the current directory.
 .INPUTS
     $VIServer:      Name/IP address of the vCenter Server.
     $VICredentials: Credentials for $VIServer.
-    $OutPutPath:    Path to create the AsBuiltReport in.
 .OUTPUTS
     New AsBuiltReport as Microsoft Word file.
 .NOTES
-    Author:     Tim Maier
-    E-Mail:     tim.maier@icloud.com
+    Author:     Tim Neukirchen
+    E-Mail:     neukirchentim@gmail.com
     Blog:       https://virbeaver.com
     Twitter:    @virBeaver
-    Year:       2019
+    Year:       2020
 #>
 
-#Set variables
+#Allow execution of unsigned scripts
+Set-ExecutionPolicy Unrestricted -Force
+
+#Ignore invalid certificates while connecting to vCenter
+Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
+
+#Set predefined variables
 $OutputPath = ".\"
 $AsBuiltConfigPath = ".\Config\AsBuiltConfig.json"
 
