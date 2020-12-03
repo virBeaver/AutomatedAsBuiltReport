@@ -21,9 +21,6 @@
 #Allow execution of unsigned scripts
 Set-ExecutionPolicy Unrestricted -Force
 
-#Ignore invalid certificates while connecting to vCenter
-Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
-
 #Set predefined variables
 $OutputPath = ".\"
 $AsBuiltConfigPath = ".\Config\AsBuiltConfig.json"
@@ -52,6 +49,9 @@ if (!(Get-Module -Name VMware.PowerCLI -ListAvailable)) {
     Update-Module -Name VMware.PowerCLI
     Write-Host "`rVMware.PowerCLI already installed, updating VMware.PowerCLI now... successful" -ForegroundColor Yellow
 }
+
+#Ignore invalid certificates while connecting to vCenter
+Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
 
 #Check if AsBuiltReport is installed
 Write-Host  "Check if AsBuiltReport is already installed..." -ForegroundColor Yellow
